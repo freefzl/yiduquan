@@ -31,7 +31,7 @@ class Vip extends Form
             upload_img($file['image']);
         }
 
-        $vips = new \App\Models\vip();
+        $vips = new \App\Models\Vip();
         $vip = $vips->orderBy('id', 'desc')->first();
         if ($vip) {
             $vip->annual_fee = $request->annual_fee;
@@ -39,7 +39,7 @@ class Vip extends Form
             $vip->image = $imageName ? 'images/' . $imageName : $vip->image;
 
         }else {
-            $vip = new \App\Models\vip();
+            $vip = new \App\Models\Vip();
             $vip->annual_fee = $request->annual_fee;
             $vip->breaks = $request->breaks;
             $vip->image = $imageName ? 'images/' . $imageName : $vip->image;
@@ -71,7 +71,7 @@ class Vip extends Form
      */
     public function data()
     {
-        $vips = new \App\Models\vip();
+        $vips = new \App\Models\Vip();
         $vip = $vips->orderBy('id', 'desc')->first();
         if ($vip) {
             return [
