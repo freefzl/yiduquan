@@ -120,7 +120,7 @@ class OrderController extends AdminController
         $form->text('no', __('No'));
         $form->number('mid', __('Mid'));
         $form->textarea('address', __('Address'));
-        $form->decimal('total_amount', __('Total amount'));
+        $form->currency('total_amount', __('Total amount'));
         $form->textarea('remark', __('Remark'));
         $form->datetime('paid_at', __('Paid at'))->default(date('Y-m-d H:i:s'));
         $form->text('payment_method', __('Payment method'));

@@ -87,7 +87,7 @@ class YidudianLogController extends AdminController
 
         $form->number('mid', __('会员id'));
         $form->text('title', __('标题'));
-        $form->decimal('yidudian', __('易读点'))->default(0.00);
+        $form->currency('yidudian', __('易读点'))->default(0.00);
 
         return $form;
     }

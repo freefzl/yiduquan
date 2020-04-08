@@ -46,4 +46,10 @@ class Member extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+
+    public function friends()
+    {
+        return $this->hasMany(Friends::class);
+    }
 }

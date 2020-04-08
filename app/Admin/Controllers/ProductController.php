@@ -137,12 +137,12 @@ class ProductController extends AdminController
         $form->number('degree_id', __('成色分类'));
         $form->number('cate_id', __('图书分类'));
         $form->text('name', __('书名'));
-        $form->decimal('pricing', __('定价'))->default(0.00);
-        $form->decimal('price', __('售价'))->default(0.00);
+        $form->currency('pricing', __('定价'))->default(0.00);
+        $form->currency('price', __('售价'))->default(0.00);
         $form->number('inventory', __('库存'))->default(1);
         $form->number('attention', __('关注值'));
         $form->text('postage', __('邮费说明'));
-        $form->decimal('service', __('服务费'))->default(0.00);
+        $form->currency('service', __('服务费'))->default(0.00);
         $form->text('author', __('作者'));
         $form->text('press', __('出版社'));
         $form->image('image', __('图书图片'));

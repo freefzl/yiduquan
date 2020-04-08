@@ -39,6 +39,7 @@ class WelfareController extends AdminController
         $grid->column('inventory', __('库存(件)'));
         $grid->column('postage', __('邮费说明'));
         $grid->column('price', __('兑换价(易读点)'));
+        $grid->column('cash', __('现金'));
         $grid->column('created_at', __('生成时间'));
         $grid->column('updated_at', __('修改时间'));
 
@@ -93,6 +94,7 @@ class WelfareController extends AdminController
         $show->field('inventory', __('Inventory'));
         $show->field('postage', __('Postage'));
         $show->field('price', __('Price'));
+        $show->field('cash', __('cash'));
         $show->field('process', __('Process'));
         $show->field('attention', __('Attention'));
         $show->field('created_at', __('Created at'));
@@ -117,7 +119,8 @@ class WelfareController extends AdminController
         $form->text('name', __('商品名称'))->rules('required',['required' => '商品名称是必须的']);
         $form->number('inventory', __('库存'))->rules('required|integer',['required' => '库存是必须的', 'integer' => '库存必须是整数']);
         $form->text('postage', __('邮费说明'))->rules('required',['required' => '邮费说明是必须的']);
-        $form->decimal('price', __('兑换价'))->rules('required',['required' => '兑换价是必须的']);
+        $form->currency('price', __('兑换价'))->rules('required',['required' => '兑换价是必须的']);
+        $form->currency('cash', __('现金'))->rules('required',['required' => '兑换价是必须的']);
         $form->editor('process', __('兑换流程'))->rules('required',['required' => '兑换流程是必须的']);
         $form->editor('attention', __('注意事项'))->rules('required',['required' => '注意事项是必须的']);
 

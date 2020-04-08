@@ -72,7 +72,7 @@ class OrderItemController extends AdminController
         $form->number('order_id', __('Order id'));
         $form->number('product_id', __('Product id'));
         $form->number('amount', __('Amount'));
-        $form->decimal('price', __('Price'))->default(0.00);
+        $form->currency('price', __('Price'))->default(0.00);
         $form->number('rating', __('Rating'));
         $form->textarea('review', __('Review'));
         $form->datetime('reviewed_at', __('Reviewed at'))->default(date('Y-m-d H:i:s'));

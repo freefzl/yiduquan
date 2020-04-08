@@ -83,7 +83,7 @@ class ShareLogController extends AdminController
 
         $form->number('mid', __('Mid'));
         $form->text('title', __('Title'));
-        $form->decimal('cash', __('Cash'))->default(0.00);
+        $form->currency('cash', __('Cash'))->default(0.00);
         $form->switch('status', __('Status'))->default(1);
 
         return $form;

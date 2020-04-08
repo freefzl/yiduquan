@@ -28,5 +28,6 @@ Route::group([
     $router->resource('vouchers', VoucherController::class);
     $router->resource('orders', OrderController::class);
     $router->resource('order-items', OrderItemController::class);
+    $router->resource('friends', FriendsController::class);
 
 });

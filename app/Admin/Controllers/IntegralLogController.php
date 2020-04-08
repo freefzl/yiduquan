@@ -82,7 +82,7 @@ class IntegralLogController extends AdminController
 
         $form->number('mid', __('Mid'));
         $form->text('title', __('Title'));
-        $form->decimal('integral', __('Integral'))->default(0.00);
+        $form->currency('integral', __('Integral'))->default(0.00);
         $form->switch('status', __('Status'))->default(1);
 
         return $form;

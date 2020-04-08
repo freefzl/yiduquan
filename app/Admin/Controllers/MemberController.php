@@ -38,8 +38,8 @@ class MemberController extends AdminController
         $grid->column('nickname', __('昵称'));
         $grid->column('mobile', __('手机号'));
         $grid->column('name', __('姓名'));
-        $grid->column('weixin', __('微信号'));
-        $grid->column('qq', __('QQ'));
+//        $grid->column('weixin', __('微信号'));
+//        $grid->column('qq', __('QQ'));
         $grid->column('city', __('城市'));
         $grid->column('yidudian', __('易读点'));
         $grid->column('integral', __('积分'));
@@ -83,14 +83,19 @@ class MemberController extends AdminController
         $grid->actions(function ($actions) {
 
             // 去掉删除
-            //$actions->disableDelete();
+            $actions->disableDelete();
 
             // 去掉编辑
-//            $actions->disableEdit();
+            $actions->disableEdit();
 
             // 去掉查看
             //$actions->disableView();
         });
+
+
+
+
+
 
         return $grid;
     }
@@ -104,6 +109,13 @@ class MemberController extends AdminController
     protected function detail($id)
     {
         $show = new Show(Member::findOrFail($id));
+
+        $show->panel()
+            ->tools(function ($tools) {
+                $tools->disableEdit();
+//                $tools->disableList();
+                $tools->disableDelete();
+            });
 
         $show->field('id', __('Id'));
         $show->field('open_id', __('Open id'));
