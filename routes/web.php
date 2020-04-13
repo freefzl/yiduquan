@@ -17,4 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::post('/upload', 'UploadController@upload');

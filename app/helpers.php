@@ -24,3 +24,4 @@ function upload_img($file)
         return $path;
     }
 }
+

@@ -26,8 +26,10 @@ Route::group([
     $router->any('settings', 'SettingController@settings')->name('admin.settings');
     $router->resource('addresses', AddressController::class);
     $router->resource('vouchers', VoucherController::class);
-    $router->resource('orders', OrderController::class);
-    $router->resource('order-items', OrderItemController::class);
     $router->resource('friends', FriendsController::class);
+    $router->resource('messages', MessagesController::class);
+    $router->resource('message-pushes', MessagePushController::class);
+    $router->resource('book-orders', BookOrderController::class);
+    $router->resource('welfare-orders', WelfareOrderController::class);
 
 });

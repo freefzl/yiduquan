@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e889bcde0995f5250c2595869da2ee99",
+    "content-hash": "4a7d025e594ed70d123c312c63eb210b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -571,16 +571,16 @@
         },
         {
             "name": "easywechat-composer/easywechat-composer",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mingyoung/easywechat-composer.git",
-                "reference": "2ccae32ab6bfba6c2d29a2fc4c93a64653867538"
+                "reference": "01648e8f065553efea39f67a439b54362d7bf91a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mingyoung/easywechat-composer/zipball/2ccae32ab6bfba6c2d29a2fc4c93a64653867538",
-                "reference": "2ccae32ab6bfba6c2d29a2fc4c93a64653867538",
+                "url": "https://api.github.com/repos/mingyoung/easywechat-composer/zipball/01648e8f065553efea39f67a439b54362d7bf91a",
+                "reference": "01648e8f065553efea39f67a439b54362d7bf91a",
                 "shasum": ""
             },
             "require": {
@@ -611,7 +611,7 @@
                 }
             ],
             "description": "The composer plugin for EasyWeChat",
-            "time": "2020-03-29T07:51:47+00:00"
+            "time": "2020-04-10T15:22:45+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -1869,6 +1869,59 @@
             "time": "2019-11-29T22:36:02+00:00"
         },
         {
+            "name": "overtrue/laravel-wechat",
+            "version": "5.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/laravel-wechat.git",
+                "reference": "b9dc911d3cf751e0ec88573a1c533e63c4a1b6a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/overtrue/laravel-wechat/zipball/b9dc911d3cf751e0ec88573a1c533e63c4a1b6a9",
+                "reference": "b9dc911d3cf751e0ec88573a1c533e63c4a1b6a9",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "^5.1 || ^6.0 || ^7.0",
+                "overtrue/wechat": "^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Overtrue\\LaravelWeChat\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "EasyWeChat": "Overtrue\\LaravelWeChat\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelWeChat\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "anzhengchao@gmail.com"
+                }
+            ],
+            "description": "微信 SDK for Laravel",
+            "keywords": [
+                "laravel",
+                "sdk",
+                "wechat",
+                "weixin"
+            ],
+            "time": "2020-03-03T15:39:58+00:00"
+        },
+        {
             "name": "overtrue/socialite",
             "version": "2.0.16",
             "source": {
@@ -1930,16 +1983,16 @@
         },
         {
             "name": "overtrue/wechat",
-            "version": "4.2.17",
+            "version": "4.2.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/overtrue/wechat.git",
-                "reference": "82bf4a320928364f6146a3d2b0ffb87b0fec7e28"
+                "reference": "5af8d224dc8f2b36d6c288de48795231964fd95e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/overtrue/wechat/zipball/82bf4a320928364f6146a3d2b0ffb87b0fec7e28",
-                "reference": "82bf4a320928364f6146a3d2b0ffb87b0fec7e28",
+                "url": "https://api.github.com/repos/overtrue/wechat/zipball/5af8d224dc8f2b36d6c288de48795231964fd95e",
+                "reference": "5af8d224dc8f2b36d6c288de48795231964fd95e",
                 "shasum": ""
             },
             "require": {
@@ -2007,7 +2060,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-03-30T02:59:53+00:00"
+            "time": "2020-04-07T19:42:03+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -2799,20 +2852,6 @@
             "keywords": [
                 "caching",
                 "psr6"
-            ],
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-03-27T16:56:45+00:00"
         },

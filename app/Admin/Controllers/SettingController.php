@@ -26,6 +26,8 @@ class SettingController extends Controller
             'basic'    => \App\Admin\Forms\Setting::class,
             'platform_rules'    => \App\Admin\Forms\PlatformRules::class,
             'vip'    => \App\Admin\Forms\Vip::class,
+            'assign'    => \App\Admin\Forms\AssignMessagePush::class,
+            'all'    => \App\Admin\Forms\AllMessagePush::class,
         ];
 
         return $content

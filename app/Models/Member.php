@@ -42,14 +42,24 @@ class Member extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function order()
+    public function bookOrder()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(BookOrder::class);
     }
 
 
     public function friends()
     {
         return $this->hasMany(Friends::class);
+    }
+
+    public function message()
+    {
+        return $this->hasMany(Messages::class);
+    }
+
+    public function messagePush()
+    {
+        return $this->hasMany(MessagePush::class);
     }
 }
