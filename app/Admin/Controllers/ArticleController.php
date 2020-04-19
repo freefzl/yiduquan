@@ -47,7 +47,6 @@ class ArticleController extends AdminController
             // 去掉查看
             $actions->disableView();
         });
-
         return $grid;
     }
 
@@ -85,6 +84,7 @@ class ArticleController extends AdminController
         $form->datetime('end_at', __('活动结束时间'))->default(date('Y-m-d H:i:s'));
         $form->text('title', __('活动标题'));
         $form->editor('content', __('活动内容'));
+
 
         return $form;
     }

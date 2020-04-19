@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Tools\EditPost;
 use App\Models\Category;
 use App\Models\Degree;
 use App\Models\Member;
@@ -11,6 +12,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\Request;
 
 class ProductController extends AdminController
 {
@@ -29,6 +31,8 @@ class ProductController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Product());
+
+        $grid->disableCreateButton();
 
         $grid->column('id', __('Id'));
         $grid->column('degree_id', __('成色'))->display(function ($degree_id) {
@@ -70,17 +74,87 @@ class ProductController extends AdminController
         });
 
         $grid->actions(function ($actions) {
-
             // 去掉删除
             //$actions->disableDelete();
-
             // 去掉编辑
-            $actions->disableEdit();
-
+            //$actions->disableEdit();
             // 去掉查看
             //$actions->disableView();
         });
+
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->add('批量修改', new EditPost());
+            });
+        });
+
         return $grid;
+    }
+
+    public function myEdits(Content $content)
+    {
+
+        $ids = request('ids');
+
+        $content->header('商品批量修改');
+
+        $form = new Form(new Product());
+        $form->setTitle('商品批量修改');
+        $form->hidden('ids')->default($ids);
+//        $form->select('degree_id', __('成色分类'))->options(Degree::selectOptions());
+        $form->select('cate_id', __('图书分类'))->options(Category::selectOptions());
+        $form->text('name', __('书名'));
+//        $form->currency('pricing', __('定价'))->default(0.00);
+//        $form->currency('price', __('售价'))->default(0.00);
+//        $form->number('inventory', __('库存'))->default(1);
+//        $form->number('attention', __('关注值'));
+//        $form->text('postage', __('邮费说明'));
+        $form->currency('service', __('服务费'))->default(0.00);
+        $form->text('author', __('作者'));
+        $form->text('press', __('出版社'));
+        $form->image('image', __('图书图片'));
+        $form->textarea('other', __('其他'));
+
+        $form->footer(function ($footer) {
+            // 去掉`重置`按钮
+            $footer->disableReset();
+            // 去掉`提交`按钮
+//            $footer->disableSubmit();
+            // 去掉`查看`checkbox
+            $footer->disableViewCheck();
+            // 去掉`继续编辑`checkbox
+            $footer->disableEditingCheck();
+            // 去掉`继续创建`checkbox
+            $footer->disableCreatingCheck();
+        });
+
+        $form->setAction(Url('/admin/products/saveEdits'));
+
+        $content->body($form);
+
+        return $content;
+    }
+
+    public function saveEdits()
+    {
+        $ids = json_decode(request('ids'));
+        if ($ids && is_array($ids)) {
+            foreach ($ids as $id) {
+                $product = Product::find($id);
+                if ($product) {
+                    $product->cate_id = request('cate_id') ? request('cate_id') : $product->cate_id;
+                    $product->name = request('name') ? request('name') : $product->name;
+                    $product->service = request('service') ? request('service') : $product->service;
+                    $product->author = request('author') ? request('author') : $product->author;
+                    $product->press = request('press') ? request('press') : $product->press;
+                    $product->other = request('other') ? request('other') : $product->other;
+                    $product->save();
+                }
+            }
+        }
+
+        admin_success('修改成功');
+        return redirect(url('admin/products'));
     }
 
     public function show($id, Content $content)
