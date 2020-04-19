@@ -13,6 +13,8 @@ Route::group([
     $router->get('/', 'HomeController@index')->name('admin.home');
     $router->resource('categories', CategoryController::class);
     $router->resource('degrees', DegreesController::class);
+    $router->get('products/myedit', 'ProductController@myEdits')->name('products/myedit');
+    $router->any('products/saveEdits', 'ProductController@saveEdits')->name('products.saveEdits');
     $router->resource('products', ProductController::class);
     $router->resource('welfares', WelfareController::class);
     $router->resource('welfare-types', WelfareTypeController::class);
@@ -32,5 +34,7 @@ Route::group([
     $router->resource('book-orders', BookOrderController::class);
     $router->resource('welfare-orders', WelfareOrderController::class);
     $router->resource('articles', ArticleController::class);
+    $router->post('products/edits', 'PostController@edits')->name('products.edits');
+
 
 });
