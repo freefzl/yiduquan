@@ -19,6 +19,7 @@ class CreateMembersTable extends Migration
             $table->string('open_id')->comment('微信id');
             $table->string('head')->nullable()->comment('头像');
             $table->string('nickname')->comment('昵称');
+            $table->string('password')->nullable()->comment('密码');
             $table->string('mobile', 20)->comment('手机号码');
             $table->string('email')->nullable()->comment('邮箱');
             $table->string('name')->comment('姓名');

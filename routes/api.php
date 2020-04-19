@@ -20,8 +20,15 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('v1')->name('api.v1.')->group(function() {
-    Route::get('version', function() {
+    Route::get('weChat', 'V1\WeChatController@serve')->name('weChat');
 
-        return 'this is version v1';
-    })->name('version');
+    Route::group(['middleware' => ['web', 'wechat.oauth']], function () {
+       /* Route::get('/user', function () {
+            $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+
+            dd($user);
+        });*/
+         Route::get('/members','V1\MemberController@index')->name('members');
+    });
 });
+

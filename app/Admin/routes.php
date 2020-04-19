@@ -31,5 +31,6 @@ Route::group([
     $router->resource('message-pushes', MessagePushController::class);
     $router->resource('book-orders', BookOrderController::class);
     $router->resource('welfare-orders', WelfareOrderController::class);
+    $router->resource('articles', ArticleController::class);
 
 });
