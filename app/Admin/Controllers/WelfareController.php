@@ -113,14 +113,25 @@ class WelfareController extends AdminController
     {
         $form = new Form(new Welfare());
 
+        $form->tools(function (Form\Tools $tools) {
+            // 去掉`列表`按钮
+//            $tools->disableList();
+            // 去掉`删除`按钮
+//            $tools->disableDelete();
+            // 去掉`查看`按钮
+            $tools->disableView();
+
+        });
+
+
         $form->select('type_id', __('商品分类'))->options(WelfareType::all()->pluck('cate_name','id'))->rules('required',['required' => '商品分类是必须的']);
         $form->image('image', __('商品封面图'))->rules('required',['required' => '商品封面图是必须的']);
         $form->editor('content', '商品详情')->rules('required',['required' => '商品详情是必须的']);
         $form->text('name', __('商品名称'))->rules('required',['required' => '商品名称是必须的']);
         $form->number('inventory', __('库存'))->rules('required|integer',['required' => '库存是必须的', 'integer' => '库存必须是整数']);
         $form->text('postage', __('邮费说明'))->rules('required',['required' => '邮费说明是必须的']);
-        $form->currency('price', __('兑换价'))->rules('required',['required' => '兑换价是必须的']);
-        $form->currency('cash', __('现金'))->rules('required',['required' => '兑换价是必须的']);
+        $form->currency('price', __('兑换价'));
+        $form->currency('cash', __('现金'));
         $form->editor('process', __('兑换流程'))->rules('required',['required' => '兑换流程是必须的']);
         $form->editor('attention', __('注意事项'))->rules('required',['required' => '注意事项是必须的']);
 
@@ -130,6 +141,26 @@ class WelfareController extends AdminController
         ];
 
         $form->switch('status', '是否上架')->states($states);
+
+        $form->footer(function ($footer) {
+
+            // 去掉`重置`按钮
+            //$footer->disableReset();
+
+            // 去掉`提交`按钮
+            //$footer->disableSubmit();
+
+            // 去掉`查看`checkbox
+            $footer->disableViewCheck();
+
+            // 去掉`继续编辑`checkbox
+            //$footer->disableEditingCheck();
+
+            // 去掉`继续创建`checkbox
+            //$footer->disableCreatingCheck();
+
+        });
+
         return $form;
     }
 }

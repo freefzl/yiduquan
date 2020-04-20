@@ -28,6 +28,7 @@ class SettingController extends Controller
             'vip'    => \App\Admin\Forms\Vip::class,
             'assign'    => \App\Admin\Forms\AssignMessagePush::class,
             'all'    => \App\Admin\Forms\AllMessagePush::class,
+            'other_message_push'    => \App\Admin\Forms\OtherMessagePush::class,
         ];
 
         return $content

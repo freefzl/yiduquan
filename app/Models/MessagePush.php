@@ -15,6 +15,7 @@ class MessagePush extends Model
 
     const MYCLASS_1 = 1;
     const MYCLASS_2 = 2;
+    const MYCLASS_3 = 3;
 
     public static $typeMap = [
         self::TYPE_1   => '系统消息',
@@ -23,8 +24,9 @@ class MessagePush extends Model
     ];
 
     public static $MyClassMap = [
-        self::MYCLASS_1   => '群发',
-        self::MYCLASS_2 => '指定',
+        self::MYCLASS_1   => '全部群发',
+        self::MYCLASS_2 => '指定群发',
+        self::MYCLASS_3 => '条件群发',
     ];
 
 

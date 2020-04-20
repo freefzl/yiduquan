@@ -112,10 +112,10 @@ class DegreesController extends Content
         $show = new Show(Degree::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('parent_id', __('Parent id'));
-        $show->field('name', __('Name'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
+        $show->field('parent_id', __('父级id'));
+        $show->field('name', __('分类名称'));
+        $show->field('created_at', __('生成时间'));
+        $show->field('updated_at', __('修改时间'));
 
         return $show;
     }
@@ -129,10 +129,39 @@ class DegreesController extends Content
     {
         $form = new Form(new Degree());
 
+        $form->tools(function (Form\Tools $tools) {
+            // 去掉`列表`按钮
+//            $tools->disableList();
+            // 去掉`删除`按钮
+//            $tools->disableDelete();
+            // 去掉`查看`按钮
+            $tools->disableView();
+
+        });
+
         $form->number('id', __('id'));
         $form->select('pid', __('父级id'))->options(Degree::selectOptions());
         $form->text('cate_name', __('分类名称'))->required();
         $form->number('sort', __('排序'))->default(99)->help('越小越靠前');
+
+        $form->footer(function ($footer) {
+
+            // 去掉`重置`按钮
+            //$footer->disableReset();
+
+            // 去掉`提交`按钮
+            //$footer->disableSubmit();
+
+            // 去掉`查看`checkbox
+            $footer->disableViewCheck();
+
+            // 去掉`继续编辑`checkbox
+            //$footer->disableEditingCheck();
+
+            // 去掉`继续创建`checkbox
+            //$footer->disableCreatingCheck();
+
+        });
 
         return $form;
     }

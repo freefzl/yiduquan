@@ -37,6 +37,8 @@ class CategoryController extends Content
                 // 显示分类树状图
                 $row->column(6, $this->treeView()->render());
 
+
+
                 $row->column(6, function (Column $column) {
                     $form = new \Encore\Admin\Widgets\Form();
                     $form->action(admin_url('categories'));
@@ -130,10 +132,40 @@ class CategoryController extends Content
 
         $form = new Form(new Category());
 
+        $form->tools(function (Form\Tools $tools) {
+            // 去掉`列表`按钮
+//            $tools->disableList();
+            // 去掉`删除`按钮
+//            $tools->disableDelete();
+            // 去掉`查看`按钮
+            $tools->disableView();
+
+        });
+
         $form->number('id', __('id'));
         $form->select('pid', __('父级id'))->options(Category::selectOptions());
         $form->text('cate_name', __('分类名称'))->required();
         $form->number('sort', __('排序'))->default(99)->help('越小越靠前');
+
+        $form->footer(function ($footer) {
+
+            // 去掉`重置`按钮
+            //$footer->disableReset();
+
+            // 去掉`提交`按钮
+            //$footer->disableSubmit();
+
+            // 去掉`查看`checkbox
+            $footer->disableViewCheck();
+
+            // 去掉`继续编辑`checkbox
+            //$footer->disableEditingCheck();
+
+            // 去掉`继续创建`checkbox
+            //$footer->disableCreatingCheck();
+
+        });
+
         return $form;
     }
 }

@@ -7,11 +7,13 @@ use App\Models\Category;
 use App\Models\Degree;
 use App\Models\Member;
 use App\Models\Product;
+use App\Services\Product\Enums\SuitOfStatus;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Request;
 
 class ProductController extends AdminController
@@ -193,6 +195,10 @@ class ProductController extends AdminController
         $show->field('press', __('出版社'));
         $show->field('image', __('图书图片'))->image();
         $show->field('other', __('其他'));
+        $show->field('suit_of_class', __('图书套型'))->as(function ($suit_of_class) {
+            return SuitOfStatus::name($suit_of_class);
+        });
+        $show->field('suit_number', __('套中有多少册'));
         $show->field('created_at', __('生成时间'));
         $show->field('updated_at', __('修改时间'));
 
@@ -207,6 +213,8 @@ class ProductController extends AdminController
     protected function form()
     {
         $form = new Form(new Product());
+        $suitOfStatus = SuitOfStatus::all();
+        $arr = Arr::pluck($suitOfStatus, 'name', 'type');
 
         $form->number('degree_id', __('成色分类'));
         $form->number('cate_id', __('图书分类'));
@@ -221,6 +229,8 @@ class ProductController extends AdminController
         $form->text('press', __('出版社'));
         $form->image('image', __('图书图片'));
         $form->textarea('other', __('其他'));
+        $form->select('suit_of_class', __('图书套型'))->options($arr);
+        $form->number('suit_number', __('套中有多少册'));
 
         return $form;
     }

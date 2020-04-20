@@ -15,4 +15,8 @@ class Welfare extends Model
     {
         return $this->hasMany(Voucher::class);
     }
+
+    public function article(){
+        return $this->hasMany(Article::class);
+    }
 }

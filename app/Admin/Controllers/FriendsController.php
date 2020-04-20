@@ -31,6 +31,9 @@ class FriendsController extends AdminController
     {
         $grid = new Grid(new Friends());
 
+        $grid->disableCreateButton();
+        $grid->disableActions();
+
         $grid->column('id', __('Id'));
         $grid->column('member.nickname', __('会员昵称'));
         $grid->column('friend.nickname', __('好友昵称'));

@@ -83,6 +83,16 @@ class SlideController extends AdminController
     {
         $form = new Form(new Slide());
 
+        $form->tools(function (Form\Tools $tools) {
+            // 去掉`列表`按钮
+//            $tools->disableList();
+            // 去掉`删除`按钮
+//            $tools->disableDelete();
+            // 去掉`查看`按钮
+            $tools->disableView();
+
+        });
+
         $form->image('image', __('图片'))->rules('required',['required' => '图片是必须的']);
         $form->url('url', __('url地址'));
         $states = [
@@ -91,6 +101,25 @@ class SlideController extends AdminController
         ];
 
         $form->switch('status', '是否使用')->states($states);
+
+        $form->footer(function ($footer) {
+
+            // 去掉`重置`按钮
+            //$footer->disableReset();
+
+            // 去掉`提交`按钮
+            //$footer->disableSubmit();
+
+            // 去掉`查看`checkbox
+            $footer->disableViewCheck();
+
+            // 去掉`继续编辑`checkbox
+            //$footer->disableEditingCheck();
+
+            // 去掉`继续创建`checkbox
+            //$footer->disableCreatingCheck();
+
+        });
 
         return $form;
     }

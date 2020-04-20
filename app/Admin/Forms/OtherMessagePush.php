@@ -3,19 +3,17 @@
 namespace App\Admin\Forms;
 
 use App\Jobs\Message;
-use App\Models\MessagePush;
-use Encore\Admin\Admin;
 use Encore\Admin\Widgets\Form;
 use Illuminate\Http\Request;
 
-class AllMessagePush extends Form
+class OtherMessagePush extends Form
 {
     /**
      * The form title.
      *
      * @var string
      */
-    public $title = '群发消息推送';
+    public $title = '条件消息群发';
 
     /**
      * Handle the form request.
@@ -26,11 +24,11 @@ class AllMessagePush extends Form
      */
     public function handle(Request $request)
     {
-
+        //dump($request->all());
 
         dispatch(new Message($request->all()));
 
-        admin_success('消息发送成功');
+        admin_success('Processed successfully.');
 
         return back();
     }
@@ -40,10 +38,9 @@ class AllMessagePush extends Form
      */
     public function form()
     {
-        $this->hidden('class', '推送方式')->rules('required');
-        $this->select('type', '消息类型')->options(MessagePush::$typeMap)->rules('required');
-        $this->text('title', '标题')->rules('required');
-        $this->editor('content', '内容')->rules('required');
+        $this->text('name')->rules('required');
+        $this->email('email')->rules('email');
+        $this->datetime('created_at');
     }
 
     /**
@@ -54,10 +51,9 @@ class AllMessagePush extends Form
     public function data()
     {
         return [
-            'type'       => 1,
-            'class'       => 1,
-            'title'      => '',
-            'content' => '',
+            'name'       => 'John Doe',
+            'email'      => 'John.Doe@gmail.com',
+            'created_at' => now(),
         ];
     }
 }

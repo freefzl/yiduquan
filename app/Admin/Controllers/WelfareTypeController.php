@@ -91,11 +91,11 @@ class WelfareTypeController extends Content
         $grid = new Grid(new WelfareType());
 
         $grid->column('id', __('Id'));
-        $grid->column('pid', __('Pid'));
-        $grid->column('cate_name', __('Cate name'));
-        $grid->column('sort', __('Sort'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('pid', __('父级'));
+        $grid->column('cate_name', __('名称'));
+        $grid->column('sort', __('排序'));
+        $grid->column('created_at', __('生成时间'));
+        $grid->column('updated_at', __('修改时间'));
 
         return $grid;
     }
@@ -111,11 +111,11 @@ class WelfareTypeController extends Content
         $show = new Show(WelfareType::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('pid', __('Pid'));
-        $show->field('cate_name', __('Cate name'));
-        $show->field('sort', __('Sort'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
+        $show->field('pid', __('父级'));
+        $show->field('cate_name', __('名称'));
+        $show->field('sort', __('排序'));
+        $show->field('created_at', __('生成时间'));
+        $show->field('updated_at', __('修改时间'));
 
         return $show;
     }
@@ -129,9 +129,38 @@ class WelfareTypeController extends Content
     {
         $form = new Form(new WelfareType());
 
-        $form->number('pid', __('Pid'));
-        $form->text('cate_name', __('Cate name'));
-        $form->number('sort', __('Sort'));
+        $form->tools(function (Form\Tools $tools) {
+            // 去掉`列表`按钮
+//            $tools->disableList();
+            // 去掉`删除`按钮
+//            $tools->disableDelete();
+            // 去掉`查看`按钮
+            $tools->disableView();
+
+        });
+
+        $form->number('pid', __('父级'));
+        $form->text('cate_name', __('名称'));
+        $form->number('sort', __('排序'));
+
+        $form->footer(function ($footer) {
+
+            // 去掉`重置`按钮
+            //$footer->disableReset();
+
+            // 去掉`提交`按钮
+            //$footer->disableSubmit();
+
+            // 去掉`查看`checkbox
+            $footer->disableViewCheck();
+
+            // 去掉`继续编辑`checkbox
+            //$footer->disableEditingCheck();
+
+            // 去掉`继续创建`checkbox
+            //$footer->disableCreatingCheck();
+
+        });
 
         return $form;
     }

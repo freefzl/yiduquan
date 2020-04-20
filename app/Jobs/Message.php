@@ -80,6 +80,8 @@ class Message implements ShouldQueue
                         }
 
                     }
+                }elseif ($this->data['class'] == MessagePush::MYCLASS_3) {
+
                 }
 
 
