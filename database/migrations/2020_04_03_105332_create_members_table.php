@@ -27,13 +27,15 @@ class CreateMembersTable extends Migration
             $table->string('qq')->nullable()->comment('qq');
             $table->string('city')->nullable()->comment('所在城市');
             $table->decimal('yidudian')->index()->default(0.00)->comment('易读点');
-            $table->integer('integral')->index()->default(0)->comment('积分');
+            $table->decimal('integral')->index()->default(0.00)->comment('积分');
             $table->decimal('balance')->index()->default(0.00)->comment('余额');
             $table->decimal('balance')->index()->default(0.00)->comment('余额');
             $table->tinyInteger('level')->index()->default(1)->comment('等级');
             $table->tinyInteger('status')->index()->default(1)->comment('状态');
             $table->integer('referees')->index()->default(0)->comment('推荐人');
             $table->integer('active')->index()->default(30)->comment('活跃度');
+            $table->double('longitude',10,3)->nullable()->comment('经度');
+            $table->double('latitude',10,3)->nullable()->comment('纬度');
             $table->timestamps();
             $table->softDeletes();
         });

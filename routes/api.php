@@ -19,16 +19,26 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 
-Route::prefix('v1')->name('api.v1.')->group(function() {
+/*Route::prefix('v1')->name('api.v1.')->group(function() {
     Route::get('weChat', 'V1\WeChatController@serve')->name('weChat');
 
-    Route::group(['middleware' => ['web', 'wechat.oauth']], function () {
-       /* Route::get('/user', function () {
-            $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+    //我的兴趣
 
-            dd($user);
-        });*/
+
+    Route::group(['middleware' => ['web', 'wechat.oauth']], function () {
+
          Route::get('/members','V1\MemberController@index')->name('members');
     });
+});*/
+
+$api = app('Dingo\Api\Routing\Router');
+
+$api->version('v1', [
+    'namespace' => 'App\Http\Controllers\V1',
+],function($api) {
+    $api->get('weChat', 'WeChatController@serve')->name('weChat');
 });
+
+
+
 

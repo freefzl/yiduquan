@@ -19,6 +19,11 @@ Route::group([
     $router->resource('welfares', WelfareController::class);
     $router->resource('welfare-types', WelfareTypeController::class);
     $router->resource('opinions', OpinionController::class);
+    $router->get('members/{member}/address', 'MemberController@address')->name('members.address');
+    $router->get('members/{member}/friends', 'MemberController@friends')->name('members.friends');
+    $router->get('members/{member}/voucher', 'MemberController@voucher')->name('members.voucher');
+    $router->get('members/{member}/bookOrders', 'MemberController@bookOrders')->name('members.bookOrders');
+    $router->get('members/{member}/welfareOrders', 'MemberController@welfareOrders')->name('members.welfareOrders');
     $router->resource('members', MemberController::class);
     $router->resource('advertisings', AdvertisingController::class);
     $router->resource('slides', SlideController::class);

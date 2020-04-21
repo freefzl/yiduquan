@@ -13,7 +13,7 @@ class Category extends Model
     protected $table='category';
 
     protected $fillable = [
-      'pid', 'cate_name', 'sort'
+      'id', 'pid', 'cate_name', 'sort'
     ];
 
     protected $with = [
