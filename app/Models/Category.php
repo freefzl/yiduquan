@@ -44,4 +44,9 @@ class Category extends Model
     {
         return $this->hasOne(get_class($this), $this->getKeyName(), 'pid');
     }
+
+    public function product()
+    {
+        return $this->hasMany(Product::class, 'cate_id', 'id');
+    }
 }

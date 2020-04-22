@@ -9,10 +9,23 @@ use Illuminate\Support\Facades\Request;
 class MemberList extends AbstractTool
 {
 
-    public function render()
+    protected function script()
     {
         $url = admin_url('members');
 
-        return view('admin.member.list', compact('url'));
+        return <<<EOT
+
+$('.mybut').on('click', function(){
+    window.location.href = "$url";
+})
+
+EOT;
+    }
+
+    public function render()
+    {
+        Admin::script($this->script());
+
+        return view('admin.member.list');
     }
 }

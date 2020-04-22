@@ -42,4 +42,9 @@ class Degree extends Model
     {
         return $this->hasOne(get_class($this), $this->getKeyName(), 'pid');
     }
+
+    public function product()
+    {
+        return $this->hasMany(Product::class, 'degree_id', 'id');
+    }
 }

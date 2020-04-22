@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Exporters\ProductExporter;
 use App\Admin\Extensions\Tools\EditPost;
 use App\Models\Category;
 use App\Models\Degree;
@@ -37,12 +38,8 @@ class ProductController extends AdminController
         $grid->disableCreateButton();
 
         $grid->column('id', __('Id'));
-        $grid->column('degree_id', __('成色'))->display(function ($degree_id) {
-            return Degree::find($degree_id)->cate_name;
-        });
-        $grid->column('cate_id', __('分类'))->display(function ($cate_id) {
-            return Category::find($cate_id)->cate_name;
-        });
+        $grid->column('degree.cate_name', __('成色'));
+        $grid->column('category.cate_name', __('分类'));
         $grid->column('member.nickname', __('所属会员'));
         $grid->column('name', __('书名'));
         $grid->column('pricing', __('定价'));
@@ -56,9 +53,12 @@ class ProductController extends AdminController
         $grid->column('image', __('图书图片'))->display(function ($image) {
             return "<img style='width: 50px;' src=".env('IMG_URL').$image.">";
         });
+        $grid->column('suit_of_class', __('图书套型'))->display(function ($suit_of_class) {
+            return Product::$suitOfClassMap[$suit_of_class];
+        });
+        $grid->column('suit_number', __('套内几本'));
         $grid->column('created_at', __('生成时间'));
         $grid->column('updated_at', __('修改时间'));
-//        $grid->column('status', __('图书状态'))->using([0 => '未上架', 1 => '已上架']);
         $grid->column('status', __('是否上架'))->bool();
 
         $grid->filter(function($filter){
@@ -89,6 +89,8 @@ class ProductController extends AdminController
                 $batch->add('批量修改', new EditPost());
             });
         });
+
+        $grid->exporter(new ProductExporter());
 
         return $grid;
     }
