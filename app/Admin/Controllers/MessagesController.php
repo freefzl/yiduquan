@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Exporters\MessageExporter;
 use App\Models\Messages;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -37,20 +38,10 @@ class MessagesController extends AdminController
             return $content;
         });
         $grid->column('type', __('消息类型'))->display(function ($type) {
-            if ($type == Messages::TYPE_1) {
-                return Messages::$typeMap[Messages::TYPE_1];
-            }else if ($type == Messages::TYPE_2) {
-                return Messages::$typeMap[Messages::TYPE_2];
-            } else if ($type == Messages::TYPE_3) {
-                return Messages::$typeMap[Messages::TYPE_3];
-            }
+            return Messages::$typeMap[$type];
         });
         $grid->column('read', __('是否阅读'))->display(function ($type) {
-            if ($type == Messages::READ_0) {
-                return Messages::$readMap[Messages::READ_0];
-            }else if ($type == Messages::READ_1) {
-                return Messages::$readMap[Messages::READ_1];
-            }
+            return Messages::$readMap[$type];
         });
         $states = [
             'on'  => ['value' => 1, 'text' => '可见', 'color' => 'primary'],
@@ -75,6 +66,7 @@ class MessagesController extends AdminController
 
         });
 
+        $grid->exporter(new MessageExporter());
 
         return $grid;
     }

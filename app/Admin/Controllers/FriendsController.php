@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Exporters\FriendsExporter;
 use App\Models\Friends;
 use App\Repositories\Members\FriendsRepository;
 use Encore\Admin\Controllers\AdminController;
@@ -38,7 +39,7 @@ class FriendsController extends AdminController
         $grid->column('member.nickname', __('会员昵称'));
         $grid->column('friend.nickname', __('好友昵称'));
         $grid->column('created_at', __('生成时间'));
-        $grid->column('updated_at', __('修改时间'));
+//        $grid->column('updated_at', __('修改时间'));
 
         $grid->filter(function($filter){
 
@@ -52,17 +53,14 @@ class FriendsController extends AdminController
 
         });
 
-        $grid->actions(function ($actions) {
 
-            // 去掉删除
-            $actions->disableDelete();
-
-            // 去掉编辑
-            $actions->disableEdit();
-
-            // 去掉查看
-            $actions->disableView();
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
         });
+
+        $grid->exporter(new FriendsExporter());
 
         return $grid;
     }

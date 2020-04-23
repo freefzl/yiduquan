@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Exporters\MessagePushExporter;
 use App\Models\MessagePush;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -80,6 +81,8 @@ class MessagePushController extends AdminController
             $filter->between('created_at', '生成时间')->datetime();
 
         });
+
+        $grid->exporter(new MessagePushExporter());
 
         return $grid;
     }

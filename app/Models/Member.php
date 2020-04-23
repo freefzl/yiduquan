@@ -12,6 +12,26 @@ class Member extends Model
 
     protected $table='members';
 
+    const LEVEL_0 = 0;
+    const LEVEL_1 = 1;
+    const LEVEL_2 = 2;
+
+    public static $levelMap = [
+        self::LEVEL_0   => '游客',
+        self::LEVEL_1  => '会员',
+        self::LEVEL_2  => '贵宾',
+    ];
+
+    public function child()
+    {
+        return $this->hasMany(get_class($this), 'referees', 'id');
+    }
+
+    public function parent()
+    {
+        return $this->hasOne(get_class($this), 'id', 'referees');
+    }
+
     public function integralLog()
     {
         return $this->hasMany(IntegralLog::class);
@@ -61,5 +81,10 @@ class Member extends Model
     public function messagePush()
     {
         return $this->hasMany(MessagePush::class);
+    }
+
+    public function opinion()
+    {
+        return $this->hasMany(Opinion::class);
     }
 }

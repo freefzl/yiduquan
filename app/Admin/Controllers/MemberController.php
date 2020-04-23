@@ -3,13 +3,18 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Actions\Post\Address;
+use App\Admin\Extensions\Exporters\MemberExporter;
+use App\Admin\Extensions\Exporters\MyAddressExporter;
+use App\Admin\Extensions\Exporters\MyBookOrderExporter;
+use App\Admin\Extensions\Exporters\MyFriendsExporter;
+use App\Admin\Extensions\Exporters\MyVoucherExporter;
+use App\Admin\Extensions\Exporters\MyWelfareOrderExporter;
 use App\Admin\Extensions\Tools\MemberList;
 use App\Models\BookOrder;
 use App\Models\Friends;
 use App\Models\Member;
 use App\Models\Voucher;
 use App\Models\WelfareOrder;
-use App\Models\WelfareType;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -32,11 +37,13 @@ class MemberController extends AdminController
      */
     protected function grid()
     {
+
         $grid = new Grid(new Member());
 
         $grid->disableCreateButton();
 
         $grid->column('id', __('Id'));
+        $grid->column('open_id', __('微信openid'));
         $grid->column('head', __('头像'))->display(function ($head, $grid) {
             if ($head) {
                 return "<img style='width: 50px;' src=".env('IMG_URL').$head.">";
@@ -46,27 +53,19 @@ class MemberController extends AdminController
         $grid->column('nickname', __('昵称'));
         $grid->column('mobile', __('手机号'));
         $grid->column('name', __('姓名'));
-//        $grid->column('weixin', __('微信号'));
-//        $grid->column('qq', __('QQ'));
+        $grid->column('weixin', __('微信号'));
+        $grid->column('qq', __('QQ'));
         $grid->column('city', __('城市'));
         $grid->column('yidudian', __('易读点'));
         $grid->column('integral', __('积分'));
         $grid->column('balance', __('余额'));
-        $grid->column('referees', __('推荐人'))->display(function ($referees) {
-            if ($referees) {
-                return Member::find($referees)->nickname;
-            }
-            return '无';
-        });
+        $grid->column('parent.nickname', __('推荐人'));
         $grid->column('level', __('等级'))->display(function ($level) {
-            if ($level == 0) {
-                return '游客';
-            }else if ($level == 1) {
-                return '会员';
-            }else if ($level == 2) {
-                return '贵宾';
-            }
+            return Member::$levelMap[$level];
         });
+//        $grid->column('active', __('活跃度'));
+        $grid->column('longitude', __('经度'));
+        $grid->column('latitude', __('纬度'));
         $grid->column('created_at', __('生成时间'));
         $grid->column('updated_at', __('修改时间'));
         $states = [
@@ -106,6 +105,7 @@ class MemberController extends AdminController
             $actions->add(new \App\Admin\Actions\Post\WelfareOrder());
         });
 
+        $grid->exporter(new MemberExporter());
 
         return $grid;
     }
@@ -148,9 +148,14 @@ class MemberController extends AdminController
 
 
         $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
             $tools->append(new MemberList());
         });
 
+        $grid->exporter(new MyWelfareOrderExporter());
+        
         $content->body($grid);
         return $content;
     }
@@ -193,8 +198,13 @@ class MemberController extends AdminController
 
 
         $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
             $tools->append(new MemberList());
         });
+
+        $grid->exporter(new MyBookOrderExporter());
 
         $content->body($grid);
         return $content;
@@ -202,7 +212,7 @@ class MemberController extends AdminController
 
     public function voucher($id, Content $content)
     {
-        $content->header('我的兑换券');
+        $content->header('我的福利卡');
 
         $grid = new Grid(new Voucher());
         $grid->model()->where(['mid' => $id]);
@@ -244,8 +254,13 @@ class MemberController extends AdminController
         });
 
         $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
             $tools->append(new MemberList());
         });
+
+        $grid->exporter(new MyVoucherExporter());
 
         $content->body($grid);
         return $content;
@@ -279,8 +294,13 @@ class MemberController extends AdminController
         });
 
         $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
             $tools->append(new MemberList());
         });
+
+        $grid->exporter(new MyFriendsExporter());
 
         $content->body($grid);
         return $content;
@@ -303,11 +323,10 @@ class MemberController extends AdminController
         $grid->column('city', __('市'));
         $grid->column('area', __('区'));
         $grid->column('address', __('详情地址'));
-        $grid->column('default', __('默认地址'));
         $grid->column('status', __('状态'));
         $grid->column('created_at', __('生成时间'));
         $grid->column('updated_at', __('修改时间'));
-
+        $grid->column('default', __('默认地址'))->bool();
 
 
         $grid->filter(function($filter){
@@ -321,8 +340,14 @@ class MemberController extends AdminController
         });
 
         $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
             $tools->append(new MemberList());
         });
+
+
+        $grid->exporter(new MyAddressExporter());
 
         $content->body($grid);
         return $content;

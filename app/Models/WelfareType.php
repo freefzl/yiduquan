@@ -42,4 +42,9 @@ class WelfareType extends Model
     {
         return $this->hasOne(get_class($this), $this->getKeyName(), 'pid');
     }
+
+    public function welfare()
+    {
+        return $this->hasMany(Welfare::class);
+    }
 }

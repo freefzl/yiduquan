@@ -15,6 +15,7 @@ class CreateOpinionsTable extends Migration
     {
         Schema::create('opinions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('mid')->index()->default(0)->comment('会员id');
             $table->text('content')->comment('意见内容');
             $table->timestamps();
         });

@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Exporters\BookOrderExporter;
 use App\Models\BookOrder;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -37,20 +38,20 @@ class BookOrderController extends AdminController
         $grid->column('number', __('件数'));
         $grid->column('total', __('总价(易读点)'));
         $grid->column('service_fee', __('服务费(RMB)'));
-//        $grid->column('address', __('收货地址'));
+        $grid->column('address', __('收货地址'));
         $grid->column('paid_at', __('支付时间'));
         $grid->column('payment_method', __('支付方式'))->display(function ($payment_method){
             return BookOrder::$paymentMethodMap[$payment_method];
         });
-//        $grid->column('payment_no', __('支付平台单号'));
-//        $grid->column('closed', __('是否关闭订单'));
+        $grid->column('payment_no', __('支付平台单号'));
+        $grid->column('closed', __('是否关闭订单'));
         $grid->column('mail_method', __('邮寄方式'))->display(function ($mail_method) {
             return BookOrder::$mailMethodMap[$mail_method];
         });
         $grid->column('ship_status', __('物流状态'))->display(function ($ship_status) {
             return BookOrder::$shipStatusMap[$ship_status];
         });
-//        $grid->column('ship_data', __('物流数据'));
+        $grid->column('ship_data', __('物流数据'));
         $grid->column('created_at', __('生成时间'));
 //        $grid->column('updated_at', __('修改时间'));
 
@@ -62,6 +63,14 @@ class BookOrderController extends AdminController
             // 去掉查看
 //            $actions->disableView();
         });
+
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
+        });
+
+        $grid->exporter(new BookOrderExporter());
 
         return $grid;
     }
@@ -106,7 +115,9 @@ class BookOrderController extends AdminController
         $show->field('payment_no', __('服务费支付单号'));
 //        $show->field('refund_status', __('Refund status'));
 //        $show->field('refund_no', __('Refund no'));
-        $show->field('closed', __('订单是否关闭'));
+        $show->field('closed', __('订单是否关闭'))->as(function ($closed) {
+            return BookOrder::$closedMap[$closed];
+        });
         $show->field('mail_method', __('邮寄方式'))->as(function ($mail_method){
             return BookOrder::$mailMethodMap[$mail_method];
         });

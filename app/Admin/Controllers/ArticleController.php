@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Exporters\ArticleExporter;
 use App\Models\Article;
 use App\Models\Welfare;
 use Encore\Admin\Controllers\AdminController;
@@ -28,6 +29,7 @@ class ArticleController extends AdminController
         $grid = new Grid(new Article());
 
         $grid->column('id', __('Id'));
+        $grid->column('welfare.name', __('活动商品'));
         $grid->column('start_at', __('开始时间'));
         $grid->column('end_at', __('结束时间'));
         $grid->column('title', __('标题'));
@@ -59,6 +61,8 @@ class ArticleController extends AdminController
             $filter->between('created_at', '生成时间')->datetime();
 
         });
+
+        $grid->exporter(new ArticleExporter());
 
         return $grid;
     }

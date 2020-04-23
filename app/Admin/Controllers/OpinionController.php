@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Exporters\OpinionExporter;
 use App\Models\Opinion;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -26,7 +27,10 @@ class OpinionController extends AdminController
     {
         $grid = new Grid(new Opinion());
 
+        $grid->disableActions();
+
         $grid->column('id', __('Id'));
+        $grid->column('member.nickname', __('会员昵称'));
         $grid->column('content', __('意见内容'));
         $grid->column('created_at', __('生成时间'));
         $grid->column('updated_at', __('修改时间'));
@@ -55,6 +59,8 @@ class OpinionController extends AdminController
             $filter->between('created_at', '生成时间')->datetime();
 
         });
+
+        $grid->exporter(new OpinionExporter());
 
         return $grid;
     }

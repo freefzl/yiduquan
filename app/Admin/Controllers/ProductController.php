@@ -77,19 +77,21 @@ class ProductController extends AdminController
 
         $grid->actions(function ($actions) {
             // 去掉删除
-            //$actions->disableDelete();
+            $actions->disableDelete();
             // 去掉编辑
-            //$actions->disableEdit();
+            $actions->disableEdit();
             // 去掉查看
             //$actions->disableView();
         });
 
         $grid->tools(function ($tools) {
             $tools->batch(function ($batch) {
+                $batch->disableDelete();
                 $batch->add('批量修改', new EditPost());
             });
         });
 
+//        dump($grid->handleExportRequest());
         $grid->exporter(new ProductExporter());
 
         return $grid;

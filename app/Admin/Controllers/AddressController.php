@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Exporters\AddressExporter;
 use App\Models\Address;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -27,6 +28,7 @@ class AddressController extends AdminController
         $grid = new Grid(new Address());
 
         $grid->disableCreateButton();
+        $grid->disableActions();
 
         $grid->column('id', __('Id'));
         $grid->column('member.nickname', __('会员昵称'));
@@ -36,19 +38,12 @@ class AddressController extends AdminController
         $grid->column('city', __('市'));
         $grid->column('area', __('区'));
         $grid->column('address', __('详情地址'));
-        $grid->column('default', __('默认地址'));
-        $grid->column('status', __('状态'));
+        $grid->column('longitude', __('经度'));
+        $grid->column('latitude', __('纬度'));
         $grid->column('created_at', __('生成时间'));
         $grid->column('updated_at', __('修改时间'));
+        $grid->column('default', __('默认使用'))->bool();
 
-        $grid->actions(function ($actions) {
-            // 去掉删除
-            $actions->disableDelete();
-            // 去掉编辑
-            $actions->disableEdit();
-            // 去掉查看
-            //$actions->disableView();
-        });
 
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
@@ -59,6 +54,14 @@ class AddressController extends AdminController
             $filter->between('created_at', '生成时间')->datetime();
 
         });
+
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
+        });
+
+        $grid->exporter(new AddressExporter());
 
         return $grid;
     }
@@ -81,10 +84,23 @@ class AddressController extends AdminController
         $show->field('city', __('市'));
         $show->field('area', __('区'));
         $show->field('address', __('详情地址'));
-        $show->field('default', __('默认地址'));
-        $show->field('status', __('状态'));
+        $show->field('longitude', __('经度'));
+        $show->field('latitude', __('纬度'));
+        $show->field('default', __('默认使用'))->as(function ($default) {
+            if($default){
+                return '使用';
+            }
+            return '未使用';
+        });
         $show->field('created_at', __('生成时间'));
         $show->field('updated_at', __('修改时间'));
+
+        $show->panel()
+            ->tools(function ($tools) {
+                $tools->disableEdit();
+                //$tools->disableList();
+                $tools->disableDelete();
+            });
 
         return $show;
     }

@@ -26,6 +26,8 @@ class SlideController extends AdminController
     {
         $grid = new Grid(new Slide());
 
+        $grid->disableExport();
+
         $grid->column('id', __('Id'));
         $grid->column('image', __('图片'))->display(function ($image) {
             return "<img style='width: 50px;' src=".env('IMG_URL').$image.">";

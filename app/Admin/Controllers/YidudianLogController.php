@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Exporters\YidudianlLogExporter;
 use App\Models\Member;
 use App\Models\YidudianLog;
 use Encore\Admin\Controllers\AdminController;
@@ -26,11 +27,11 @@ class YidudianLogController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new YidudianLog());
-
+        $grid->disableCreateButton();
+        $grid->disableActions();
         $grid->column('id', __('Id'));
-//        $grid->column('mid', __('会员id'));
         $grid->column('member.nickname', '会员昵称');
-        $grid->column('title', __('标题'));
+        $grid->column('title', __('记录信息'));
         $grid->column('yidudian', __('易读点'));
         $grid->column('created_at', __('生成时间'));
         $grid->column('updated_at', __('修改时间'));
@@ -53,6 +54,15 @@ class YidudianLogController extends AdminController
 //            }]);
             $filter->between('created_at', '生成时间')->datetime();
         });
+
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
+        });
+
+        $grid->exporter(new YidudianlLogExporter());
+
         return $grid;
     }
 

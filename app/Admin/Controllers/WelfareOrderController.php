@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Exporters\WelfareOrderExporter;
 use App\Models\WelfareOrder;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -61,6 +62,14 @@ class WelfareOrderController extends AdminController
             // 去掉查看
 //            $actions->disableView();
         });
+
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
+        });
+
+        $grid->exporter(new WelfareOrderExporter());
 
         return $grid;
     }

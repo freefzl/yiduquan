@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Opinion extends Model
 {
     use DefaultDatetimeFormat;
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class, 'mid', 'id');
+    }
 }

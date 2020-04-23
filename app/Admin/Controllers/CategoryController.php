@@ -37,8 +37,6 @@ class CategoryController extends Content
                 // 显示分类树状图
                 $row->column(6, $this->treeView()->render());
 
-
-
                 $row->column(6, function (Column $column) {
                     $form = new \Encore\Admin\Widgets\Form();
                     $form->action(admin_url('categories'));

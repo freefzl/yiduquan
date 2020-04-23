@@ -20,6 +20,7 @@ class CreateShareLogsTable extends Migration
             $table->foreign('mid')->references('id')->on('members')->onDelete('cascade');
             $table->string('title')->comment('记录标题');
             $table->decimal('cash')->index()->default(0.00)->comment('现金');
+            $table->decimal('yidudian')->index()->default(0.00)->comment('易读点');
             $table->tinyInteger('status')->index()->default(1)->comment('现金状态');
             $table->timestamps();
         });

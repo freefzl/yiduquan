@@ -19,4 +19,9 @@ class Welfare extends Model
     public function article(){
         return $this->hasMany(Article::class);
     }
+
+    public function type()
+    {
+        return $this->belongsTo(WelfareType::class, 'type_id', 'id');
+    }
 }

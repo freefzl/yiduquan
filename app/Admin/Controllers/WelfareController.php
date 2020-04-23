@@ -2,6 +2,9 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Actions\Post\BatchRestore;
+use App\Admin\Actions\Post\Restore;
+use App\Admin\Extensions\Exporters\WelfareExporter;
 use App\Models\Welfare;
 use App\Models\WelfareType;
 use Encore\Admin\Controllers\AdminController;
@@ -32,9 +35,7 @@ class WelfareController extends AdminController
         $grid->column('image', __('商品图片'))->display(function ($image) {
             return "<img style='width: 50px;' src=".env('IMG_URL').$image.">";
         });
-        $grid->column('type_id', __('商品类型'))->display(function ($type_id) {
-            return WelfareType::find($type_id)->cate_name;
-        });
+        $grid->column('type.cate_name', __('商品类型'));
         $grid->column('name', __('商品名称'));
         $grid->column('inventory', __('库存(件)'));
         $grid->column('postage', __('邮费说明'));
@@ -59,18 +60,32 @@ class WelfareController extends AdminController
 
             // 去掉查看
             $actions->disableView();
+
+            if (\request('_scope_') == 'trashed') {
+                $actions->add(new Restore());
+            }
+        });
+
+        $grid->batchActions(function ($batch) {
+
+            if (\request('_scope_') == 'trashed') {
+                $batch->add(new BatchRestore());
+            }
+
         });
 
         $grid->filter(function($filter){
 
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
-
+            $filter->scope('trashed', '回收站')->onlyTrashed();
             // 在这里添加字段过滤器
             $filter->like('name', '商品名称');
             $filter->between('created_at', '生成时间')->datetime();
 
         });
+
+        $grid->exporter(new WelfareExporter());
 
         return $grid;
     }

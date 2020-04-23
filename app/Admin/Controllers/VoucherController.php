@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Exporters\VoucherExporter;
 use App\Models\Voucher;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -15,7 +16,7 @@ class VoucherController extends AdminController
      *
      * @var string
      */
-    protected $title = '兑换券';
+    protected $title = '福利卡';
 
     /**
      * Make a grid builder.
@@ -27,37 +28,20 @@ class VoucherController extends AdminController
         $grid = new Grid(new Voucher());
 
         $grid->disableCreateButton();
+        $grid->disableActions();
 
         $grid->column('id', __('Id'));
         $grid->column('member.nickname', __('会员昵称'));
         $grid->column('welfare.name', __('商品名称'));
         $grid->column('type', __('获取类型'))->display(function($type) {
-            if ($type == 1) {
-                return '系统赠予';
-            }else if ($type == 2) {
-                return '积分兑换';
-            }
+            return Voucher::$typeMap[$type];
         });
         $grid->column('status', __('状态'))->display(function($status){
-            if ($status == 0) {
-                return '未使用';
-            }else if ($status == 1) {
-                return '已使用';
-            } else if ($status == 2) {
-                return '已过期';
-            }
+            return Voucher::$statusMap[$status];
         });
         $grid->column('created_at', __('生成时间'));
         $grid->column('updated_at', __('修改时间'));
 
-        $grid->actions(function ($actions) {
-            // 去掉删除
-            $actions->disableDelete();
-            // 去掉编辑
-            $actions->disableEdit();
-            // 去掉查看
-            //$actions->disableView();
-        });
 
         $grid->filter(function($filter){
             // 去掉默认的id过滤器
@@ -68,6 +52,14 @@ class VoucherController extends AdminController
             $filter->between('created_at', '生成时间')->datetime();
 
         });
+
+        $grid->tools(function ($tools) {
+            $tools->batch(function ($batch) {
+                $batch->disableDelete();
+            });
+        });
+
+        $grid->exporter(new VoucherExporter());
         return $grid;
     }
 
