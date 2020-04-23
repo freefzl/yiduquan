@@ -155,7 +155,7 @@ class MemberController extends AdminController
         });
 
         $grid->exporter(new MyWelfareOrderExporter());
-        
+
         $content->body($grid);
         return $content;
     }
